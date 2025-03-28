@@ -31,3 +31,38 @@ export const getAllUsers = async(req, res) =>{
     }
 }
 
+export const updateUser = async(req, res) =>{
+    try {
+        const id = req.params.id;
+        const userExist = await user.findOne({_id:id});
+        if (!userExist) {
+            return res.status(404).json({
+                message : "User not found"
+            })
+        }
+        const updateUser = await user.findByIdAndUpdate(id, req.body, {
+            new: true
+        })
+        res.status(201).json(updateUser)
+    } catch (err) {
+        res.status(500).json({error: "Internal Server Error"})
+    }
+}
+
+export const deleteUser = async(req, res) =>{
+    try {
+        const id = req.params.id;
+        const userExist = await user.findOne({_id:id});
+        if (!userExist) {
+            return res.status(404).json({
+                message : "User not found"
+            })
+        }
+        await user.findByIdAndDelete(id)
+        res.status(201).json({
+            message : "user deleted successfully"
+        })
+    } catch (err) {
+        res.status(500).json({error: "Internal Server Error"})
+    }
+}
