@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
 import dotenv from "dotenv"
+import route from "./routes/userRoutes.js"
 
 const app = express()
 
@@ -22,3 +23,5 @@ mongoose
     .catch(err => {
         console.log(err);
     })
+
+app.use("/api/user", route);
